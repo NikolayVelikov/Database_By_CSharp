@@ -4,7 +4,7 @@ namespace ADO
 {
     public class InitialSetUp
     {
-        private string DBMaster = DBConncetion.DBMaster;
+        private string DBMaster = DBCommands.DBMaster;
         private string baseName = string.Empty;
         private string DBCurrent = string.Empty;
 
