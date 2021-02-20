@@ -6,12 +6,12 @@ namespace ADO
     {
         private string DBMaster = DBCommands.DBMaster;
         private string baseName = string.Empty;
-        private string DBCurrent = string.Empty;
+        private string dbCurrent = string.Empty;
 
         public InitialSetUp(string dbName, string dbCurrent)
         {
             this.baseName = dbName;
-            this.DBCurrent = dbCurrent;
+            this.dbCurrent = dbCurrent;
         }
 
         public void CreatingDatabase()
@@ -27,7 +27,7 @@ namespace ADO
         }
         public void CreatingTables() 
         {
-            using (var conncetion = new SqlConnection(DBCurrent))
+            using (var conncetion = new SqlConnection(dbCurrent))
             {
                 conncetion.Open();
 
@@ -42,7 +42,7 @@ namespace ADO
         }
         public void FillingDatabase()
         {
-            using (var conncetion = new SqlConnection(DBCurrent))
+            using (var conncetion = new SqlConnection(dbCurrent))
             {
                 conncetion.Open();
 

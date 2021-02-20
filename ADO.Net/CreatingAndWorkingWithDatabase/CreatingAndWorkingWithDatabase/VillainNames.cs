@@ -1,23 +1,22 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 
 namespace ADO
 {
     class VillainNames
     {
-        private string DBCurrent = string.Empty;
+        private string dbCurrent = string.Empty;
+
         public VillainNames(string dbCurrent)
         {
-            this.DBCurrent = dbCurrent;
+            this.dbCurrent = dbCurrent;
         }
 
         public List<string> Names()
         {
             List<string> names = new List<string>();
 
-            using (SqlConnection connection = new SqlConnection(DBCurrent))
+            using (SqlConnection connection = new SqlConnection(dbCurrent))
             {
                 connection.Open();
 
