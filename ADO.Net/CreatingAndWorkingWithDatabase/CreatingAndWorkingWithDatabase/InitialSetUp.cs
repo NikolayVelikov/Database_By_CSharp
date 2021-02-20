@@ -8,13 +8,13 @@ namespace ADO
         private string baseName = string.Empty;
         private string DBCurrent = string.Empty;
 
-        public InitialSetUp(string DBName)
+        public InitialSetUp(string dbName, string dbCurrent)
         {
-            this.baseName = DBName;
-            this.DBCurrent = string.Format(DBConncetion.DBCurrent, baseName);
+            this.baseName = dbName;
+            this.DBCurrent = dbCurrent;
         }
 
-        public void Run()
+        public void CreatingDatabase()
         {
             using (var conncetion = new SqlConnection(DBMaster))
             {
@@ -24,7 +24,9 @@ namespace ADO
 
                 conncetion.Close();
             }
-
+        }
+        public void CreatingTables() 
+        {
             using (var conncetion = new SqlConnection(DBCurrent))
             {
                 conncetion.Open();
@@ -34,6 +36,15 @@ namespace ADO
                 {
                     ExecudeQuery(table, conncetion);
                 }
+
+                conncetion.Close();
+            }
+        }
+        public void FillingDatabase()
+        {
+            using (var conncetion = new SqlConnection(DBCurrent))
+            {
+                conncetion.Open();
 
                 string[] tableInformation = TableInformation(); // part 3
                 foreach (string tableInfo in tableInformation)
