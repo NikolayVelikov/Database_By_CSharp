@@ -4,7 +4,7 @@
     {
         public const string DBMaster = @"Data Source=DESKTOP-8F63LT6\TEW_SQLEXPRESS;Database=master;Integrated Security=true";
         public const string DBCurrent = @"Data Source=DESKTOP-8F63LT6\TEW_SQLEXPRESS;Database=" + "{0}" + ";Integrated Security=true";
-        public const string villainNames = @"SELECT v.Name, COUNT(mv.MinionId) AS MinionsCount FROM Villains AS v JOIN MinionsVillains AS mv ON mv.VillainId = v.Id GROUP BY v.Name HAVING  COUNT(mv.MinionId)  > 3 ORDER BY MinionsCount";
+        public const string villainNames = @"SELECT v.Name, COUNT(mv.MinionId) AS MinionsCount FROM Villains AS v JOIN MinionsVillains AS mv ON mv.VillainId = v.Id GROUP BY v.Name HAVING  COUNT(mv.MinionId) > 3 ORDER BY MinionsCount";
 
         public const string villainName = "SELECT [Name] FROM Villains WHERE id = {0}";
         public const string villainMinions = "SELECT ROW_NUMBER() OVER(ORDER BY m.Name) AS Sequence, m.Name, m.Age FROM MinionsVillains AS mv JOIN Minions AS m ON m.Id = mv.MinionId WHERE mv.VillainId = ";
@@ -26,5 +26,8 @@
 
         public const string updateMinionsAgeAndUpperFirstLetter = "UPDATE Minions SET Age = Age + 1, Name = UPPER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)) WHERE Id IN(@Number)";
         public const string allMinionsWithNameAndAge = "SELECT Name, Age FROM Minions WHERE Name IS NOT NULL";
+
+        public const string storedProcedure = "CREATE OR ALTER PROCEDURE usp_GetOlder (@Id INT) AS UPDATE Minions SET Age = Age + 1 WHERE Id = @Id SELECT(Name + ' - ' + CONVERT(NVARCHAR, Age) + ' years old') AS Minion FROM Minions WHERE Id = @Id";
+        public const string executionStoredProcedure = "EXEC dbo.usp_GetOlder @Id";
     }
 }

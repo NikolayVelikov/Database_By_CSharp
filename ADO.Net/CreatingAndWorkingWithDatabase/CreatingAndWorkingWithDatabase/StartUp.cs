@@ -1,7 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using ADO;
-using System;
-using System.Text;
+﻿using ADO;
 
 namespace CreatingAndWorkingWithDatabase
 {
@@ -40,6 +37,22 @@ namespace CreatingAndWorkingWithDatabase
             //string[] ids = Console.ReadLine().Split(' ',StringSplitOptions.RemoveEmptyEntries);
             //IncreaseMinionAge task8 = new IncreaseMinionAge(dbCurrent, ids);
             //Console.WriteLine(task8.Run());
+
+
+            //IncreaseAgeStoredProcedure task9 = new IncreaseAgeStoredProcedure(dbCurrent);
+            //task9.CreateStoredProcedure();
+            //bool stop = true;
+            //while (stop)
+            //{
+            //    int n;
+            //    bool isNumeric = int.TryParse(Console.ReadLine(), out n);
+            //    if (!isNumeric)
+            //    {
+            //        break;
+            //    }
+
+            //    Console.WriteLine(task9.Run(n));
+            //}
         }
     }
 }
