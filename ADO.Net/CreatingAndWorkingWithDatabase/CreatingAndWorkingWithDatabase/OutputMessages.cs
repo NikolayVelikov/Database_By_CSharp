@@ -6,5 +6,8 @@
         public const string VillainName = "Villain: {0}";
         public const string minionsByVillain = "{0}. {1} {2}";
         public const string noMinionsByVillain = "(no minions)";
+        public const string townIdAdded = "Town {0} was added to the database.";
+        public const string addingNewVillian = "Villain {0} was added to the database.";
+        public const string finallyForAddingMinons = "Successfully added {0} to be minion of {1}.";
     }
 }

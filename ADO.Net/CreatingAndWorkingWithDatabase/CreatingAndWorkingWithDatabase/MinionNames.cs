@@ -22,7 +22,9 @@ namespace ADO
             {
                 connection.Open();
 
-                SqlCommand commandVillain = new SqlCommand(string.Format(DBCommands.villainName, this.villainId), connection);
+                SqlCommand commandVillain = new SqlCommand(string.Format(DBCommands.villainName, "@villainId"), connection);
+                commandVillain.Parameters.AddWithValue("@villainId", this.villainId);
+
                 string villainName = (string)commandVillain.ExecuteScalar();
                 if (villainName == null)
                 {
@@ -33,8 +35,9 @@ namespace ADO
                 if (villainExist)
                 {
                     sb.AppendLine(string.Format(OutputMessages.VillainName, villainName));
-                    string query = DBCommands.villainMinions + this.villainId;
-                    SqlCommand commandMinions = new SqlCommand(query, connection);
+                   
+                    SqlCommand commandMinions = new SqlCommand(DBCommands.villainMinions + "@villainId", connection);
+                    commandMinions.Parameters.AddWithValue("@villainId", this.villainId);
                     SqlDataReader reader = commandMinions.ExecuteReader();
 
                     if (!reader.HasRows)

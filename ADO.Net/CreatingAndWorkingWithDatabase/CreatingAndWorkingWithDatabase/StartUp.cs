@@ -17,7 +17,7 @@ namespace CreatingAndWorkingWithDatabase
             //task1.CreatingDatabase();
             //task1.CreatingTables();
             //task1.FillingDatabase();
-            
+
             //VillainNames task2 = new VillainNames(dbCurrent);
             //Console.WriteLine(string.Join(Environment.NewLine, task2.Names()));
 
@@ -26,6 +26,9 @@ namespace CreatingAndWorkingWithDatabase
             //int villainId = int.Parse(Console.ReadLine());
             //MinionNames task3 = new MinionNames(dbCurrent, villainId);
             //Console.WriteLine(task3.MinionsByVillain());
+
+            AddMinion task4 = new AddMinion(dbCurrent);
+            Console.WriteLine(task4.Run());
         }
     }
 }
