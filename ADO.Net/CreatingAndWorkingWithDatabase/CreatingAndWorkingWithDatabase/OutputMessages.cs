@@ -9,5 +9,7 @@
         public const string townIdAdded = "Town {0} was added to the database.";
         public const string addingNewVillian = "Villain {0} was added to the database.";
         public const string finallyForAddingMinons = "Successfully added {0} to be minion of {1}.";
+        public const string affectedTowns = "{0} town names were affected.";        
+        public const string noAffectedTowns = "No town names were affected.";        
     }
 }

@@ -17,5 +17,9 @@
         public const string vilianId = "SELECT Id FROM Villains WHERE Name = @Name";
         public const string creatingVillain = "INSERT INTO Villains (Name, EvilnessFactorId)  VALUES (@villainName, 4)";
         public const string insertingMinionsToVillain = "INSERT INTO MinionsVillains (MinionId, VillainId) VALUES (@villainId, @minionId)";
+
+        public const string findingCountryId = "SELECT Id FROM Countries WHERE Name = @Name";
+        public const string updateTownNameToBeUpperCase = "UPDATE Towns SET Name = UPPER(Name) WHERE CountryCode = @id";
+        public const string allTownsByCountry = "SELECT t.Name FROM Towns AS t JOIN Countries AS c ON c.Id = t.CountryCode WHERE c.Id = @Id";
     }
 }
