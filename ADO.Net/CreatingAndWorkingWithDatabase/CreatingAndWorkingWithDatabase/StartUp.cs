@@ -36,6 +36,10 @@ namespace CreatingAndWorkingWithDatabase
 
             //PrintAllMinionNames task7 = new PrintAllMinionNames(dbCurrent);
             //Console.WriteLine(task7.Run());
+
+            //string[] ids = Console.ReadLine().Split(' ',StringSplitOptions.RemoveEmptyEntries);
+            //IncreaseMinionAge task8 = new IncreaseMinionAge(dbCurrent, ids);
+            //Console.WriteLine(task8.Run());
         }
     }
 }

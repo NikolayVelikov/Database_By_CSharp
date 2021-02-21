@@ -23,5 +23,8 @@
         public const string allTownsByCountry = "SELECT t.Name FROM Towns AS t JOIN Countries AS c ON c.Id = t.CountryCode WHERE c.Id = @Id";
 
         public const string allMinions = "SELECT Name FROM Minions WHERE Name IS NOT NULL";
+
+        public const string updateMinionsAgeAndUpperFirstLetter = "UPDATE Minions SET Age = Age + 1, Name = UPPER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)) WHERE Id IN(@Number)";
+        public const string allMinionsWithNameAndAge = "SELECT Name, Age FROM Minions WHERE Name IS NOT NULL";
     }
 }
