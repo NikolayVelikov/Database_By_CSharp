@@ -30,9 +30,12 @@ namespace CreatingAndWorkingWithDatabase
             //AddMinion task4 = new AddMinion(dbCurrent);
             //Console.WriteLine(task4.Run());
 
-            string countryName = Console.ReadLine();
-            ChangeTownNamesCasing task5 = new ChangeTownNamesCasing(dbCurrent, countryName);
-            Console.WriteLine(task5.Run());
+            //string countryName = Console.ReadLine();
+            //ChangeTownNamesCasing task5 = new ChangeTownNamesCasing(dbCurrent, countryName);
+            //Console.WriteLine(task5.Run());
+
+            //PrintAllMinionNames task7 = new PrintAllMinionNames(dbCurrent);
+            //Console.WriteLine(task7.Run());
         }
     }
 }
