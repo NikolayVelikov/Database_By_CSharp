@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace SoftUni
+namespace SoftUni.Solutions
 {
     public static class EmployeesFromResearchAndDevelopment
     {

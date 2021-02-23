@@ -2,7 +2,7 @@
 using System.Text;
 using System.Linq;
 
-namespace SoftUni
+namespace SoftUni.Solutions
 {
     public class EmployeesFullInformation
     {

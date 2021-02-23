@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="EmployeesFullInformation.cs" />
+    <None Include="Solutions\EmployeesFullInformation.cs" />
   </ItemGroup>
 
   <ItemGroup>
