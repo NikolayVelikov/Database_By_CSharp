@@ -13,8 +13,13 @@ namespace SoftUni
             //Console.WriteLine(GetEmployeesWithSalaryOver50000(softUniContext));
             //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(softUniContext));
             //Console.WriteLine(AddNewAddressToEmployee(softUniContext));
+            Console.WriteLine(GetEmployeesInPeriod(softUniContext));
         }
 
+        public static string GetEmployeesInPeriod(SoftUniContext context)
+        {
+           return EmployeesAndProjects.Solution(context);
+        }
         public static string AddNewAddressToEmployee(SoftUniContext context)
         {
            return AddingOneNewAddressAndUpdatingEmployee.Solution(context);
