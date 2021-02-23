@@ -6,7 +6,7 @@ namespace SoftUni
 {
     public class EmployeesFullInformation
     {
-        public static string GetEmployeesFullInformation(SoftUniContext context)
+        public static string Solution(SoftUniContext context)
         {
             StringBuilder sb = new StringBuilder();
             var employees = context.Employees.Select(x => new

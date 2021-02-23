@@ -1,7 +1,5 @@
-﻿using SoftUni.Data;
-using System;
-using System.Linq;
-using System.Text;
+﻿using System;
+using SoftUni.Data;
 
 namespace SoftUni
 {
@@ -10,42 +8,22 @@ namespace SoftUni
         static void Main(string[] args)
         {
             var softUniContext = new SoftUniContext();
-            
-            string result = GetEmployeesFullInformation(softUniContext);
-            Console.WriteLine(result);
+            //Console.WriteLine(GetEmployeesFullInformation(softUniContext));
+            //Console.WriteLine(GetEmployeesWithSalaryOver50000(softUniContext));
+            Console.WriteLine(GetEmployeesFromResearchAndDevelopment(softUniContext));
         }
-
-        public static string GetEmployeesFullInformation(SoftUniContext context)
+        public static string GetEmployeesFromResearchAndDevelopment(SoftUniContext context)
         {
-            return EmployeesFullInformation.GetEmployeesFullInformation(context);
+            return EmployeesFromResearchAndDevelopment.Solution(context);
         }
 
-        //public static string GetEmployeesFullInformation(SoftUniContext context)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    var employees = context.Employees.Select(x => new
-        //    {
-        //        x.EmployeeId,
-        //        x.FirstName,
-        //        x.LastName,
-        //        x.MiddleName,
-        //        x.JobTitle,
-        //        x.Salary
-        //    }
-        //    ).OrderBy(y => y.EmployeeId);
-
-        //    foreach (var employee in employees)
-        //    {
-        //        string firsName = employee.FirstName;
-        //        string lastName = employee.LastName;
-        //        string middleName = employee.MiddleName;
-        //        string jobTitle = employee.JobTitle;
-        //        decimal salary = employee.Salary;
-
-        //        sb.AppendLine($"{firsName} {lastName} {middleName} {jobTitle} {salary:F2}");
-        //    }
-
-        //    return sb.ToString().TrimEnd();
-        //}
+        public static string GetEmployeesWithSalaryOver50000(SoftUniContext context)
+        {
+            return EmployeesWithSalaryOver50000.Solution(context);
+        }
+        public static string GetEmployeesFullInformation(SoftUniContext context) // Task 3
+        {
+            return EmployeesFullInformation.Solution(context);
+        }
     }
 }
