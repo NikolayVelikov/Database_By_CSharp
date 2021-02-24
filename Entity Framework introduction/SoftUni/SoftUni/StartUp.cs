@@ -14,7 +14,12 @@ namespace SoftUni
             //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(softUniContext));
             //Console.WriteLine(AddNewAddressToEmployee(softUniContext));
             //Console.WriteLine(GetEmployeesInPeriod(softUniContext));
-            Console.WriteLine(GetAddressesByTown(softUniContext));
+            //Console.WriteLine(GetAddressesByTown(softUniContext));
+            Console.WriteLine(GetEmployee147(softUniContext));
+        }
+        public static string GetEmployee147(SoftUniContext context)
+        {
+            return Employee147.Solution(context);
         }
         public static string GetAddressesByTown(SoftUniContext context)
         {
