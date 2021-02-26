@@ -1,4 +1,5 @@
 ﻿using SoftUni.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace SoftUni.Solutions
     {
         public static string Solution(SoftUniContext context)
         {
-            var employees = context.Employees.Where(x => x.FirstName.StartsWith("Sa")).OrderBy(x => x.FirstName).ThenBy(x => x.LastName)
+            var employees = context.Employees.Where(x => x.FirstName.StartsWith("Sa",true,CultureInfo.InvariantCulture)).OrderBy(x => x.FirstName).ThenBy(x => x.LastName)
                 .Select(x => new
                 {
                     x.FirstName,

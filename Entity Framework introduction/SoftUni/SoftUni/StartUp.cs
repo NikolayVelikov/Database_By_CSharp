@@ -19,7 +19,17 @@ namespace SoftUni
             //Console.WriteLine(GetDepartmentsWithMoreThan5Employees(softUniContext));
             //Console.WriteLine(GetLatestProjects(softUniContext));
             //Console.WriteLine(IncreaseSalaries(softUniContext));
-            Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(softUniContext));
+            //Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(softUniContext));
+            //Console.WriteLine(DeleteProjectById(softUniContext));
+            Console.WriteLine(RemoveTown(softUniContext));
+        }
+        public static string RemoveTown(SoftUniContext context)
+        {
+            return RemovesTown.Solution(context);
+        }
+        public static string DeleteProjectById(SoftUniContext context)
+        {
+            return DeletesProjectById.Solution(context);
         }
         public static string GetEmployeesByFirstNameStartingWithSa(SoftUniContext context)
         {
