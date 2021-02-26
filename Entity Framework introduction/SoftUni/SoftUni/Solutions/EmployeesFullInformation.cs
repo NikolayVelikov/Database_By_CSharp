@@ -7,8 +7,7 @@ namespace SoftUni.Solutions
     public class EmployeesFullInformation
     {
         public static string Solution(SoftUniContext context)
-        {
-            StringBuilder sb = new StringBuilder();
+        {            
             var employees = context.Employees.Select(x => new
             {
                 x.EmployeeId,
@@ -20,6 +19,7 @@ namespace SoftUni.Solutions
             }
             ).OrderBy(y => y.EmployeeId);
 
+            StringBuilder sb = new StringBuilder();
             foreach (var employee in employees)
             {
                 string firsName = employee.FirstName;

@@ -15,7 +15,12 @@ namespace SoftUni
             //Console.WriteLine(AddNewAddressToEmployee(softUniContext));
             //Console.WriteLine(GetEmployeesInPeriod(softUniContext));
             //Console.WriteLine(GetAddressesByTown(softUniContext));
-            Console.WriteLine(GetEmployee147(softUniContext));
+            //Console.WriteLine(GetEmployee147(softUniContext));
+            Console.WriteLine(GetDepartmentsWithMoreThan5Employees(softUniContext));
+        }
+        public static string GetDepartmentsWithMoreThan5Employees(SoftUniContext context)
+        {
+            return DepartmentsWithMoreThan5Employees.Solution(context);
         }
         public static string GetEmployee147(SoftUniContext context)
         {
@@ -27,11 +32,11 @@ namespace SoftUni
         }
         public static string GetEmployeesInPeriod(SoftUniContext context)
         {
-           return EmployeesAndProjects.Solution(context);
+            return EmployeesAndProjects.Solution(context);
         }
         public static string AddNewAddressToEmployee(SoftUniContext context)
         {
-           return AddingOneNewAddressAndUpdatingEmployee.Solution(context);
+            return AddingOneNewAddressAndUpdatingEmployee.Solution(context);
         }
         public static string GetEmployeesFromResearchAndDevelopment(SoftUniContext context)
         {
