@@ -11,10 +11,17 @@ namespace SoftUni.Solutions
             var adresses = context.Addresses.Where(x => x.Town == townSeattle).ToList();
             var employees = context.Employees.Where(x => adresses.Contains(x.Address));
 
-            context.Employees.RemoveRange(employees);
-            context.Addresses.RemoveRange(adresses);
-            context.Towns.Remove(townSeattle);
+            foreach (var employee in employees)
+            {
+                employee.AddressId = null;
+            }
+            context.SaveChanges();
 
+            foreach (var adresse in adresses)
+            {
+                context.Addresses.Remove(adresse);
+            }
+            context.Towns.Remove(townSeattle);
             context.SaveChanges();
 
             int count = adresses.Count;
