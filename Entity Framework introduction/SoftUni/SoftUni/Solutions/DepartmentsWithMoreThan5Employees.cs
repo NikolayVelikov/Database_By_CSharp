@@ -1,6 +1,6 @@
-﻿using SoftUni.Data;
+﻿using System.Text;
 using System.Linq;
-using System.Text;
+using SoftUni.Data;
 
 namespace SoftUni.Solutions
 {
@@ -31,7 +31,6 @@ namespace SoftUni.Solutions
 
                 sb.AppendLine(string.Format(modelOutput, departmentName, managerName));
 
-                //var employees = department.Employee.OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToArray();
                 var employees = department.Employee;
                 foreach (var employee in employees)
                 {
