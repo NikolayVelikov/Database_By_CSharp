@@ -26,8 +26,9 @@ namespace P03_FootballBetting.Data.Models
         public int TownId { get; set; }
         public Town Town { get; set; }
 
+        public ICollection<Player> Players { get; set; }
         public ICollection<Game> HomeGames { get; set; }
         public ICollection<Game> AwayGames { get; set; }
-        public ICollection<Player> Players { get; set; }
+       
     }
 }
