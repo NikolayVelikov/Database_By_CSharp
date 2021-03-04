@@ -12,11 +12,11 @@
         {
             MusicHubDbContext context = new MusicHubDbContext();
 
-            DbInitializer.ResetDatabase(context);
+           // DbInitializer.ResetDatabase(context);
 
             Console.WriteLine(ExportSongsAboveDuration(context, 4));
 
-            Console.WriteLine(ExportAlbumsInfo(context, 9));
+            //Console.WriteLine(ExportAlbumsInfo(context, 9));
         }
 
         public static string ExportAlbumsInfo(MusicHubDbContext context, int producerId)
