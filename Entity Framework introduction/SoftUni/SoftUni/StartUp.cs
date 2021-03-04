@@ -9,7 +9,7 @@ namespace SoftUni
         static void Main(string[] args)
         {
             var softUniContext = new SoftUniContext();
-            //Console.WriteLine(GetEmployeesFullInformation(softUniContext));
+            Console.WriteLine(GetEmployeesFullInformation(softUniContext));
             //Console.WriteLine(GetEmployeesWithSalaryOver50000(softUniContext));
             //Console.WriteLine(GetEmployeesFromResearchAndDevelopment(softUniContext));
             //Console.WriteLine(AddNewAddressToEmployee(softUniContext));
@@ -21,7 +21,7 @@ namespace SoftUni
             //Console.WriteLine(IncreaseSalaries(softUniContext));
             //Console.WriteLine(GetEmployeesByFirstNameStartingWithSa(softUniContext));
             //Console.WriteLine(DeleteProjectById(softUniContext));
-            Console.WriteLine(RemoveTown(softUniContext));
+            //Console.WriteLine(RemoveTown(softUniContext));
         }
         public static string RemoveTown(SoftUniContext context)
         {
