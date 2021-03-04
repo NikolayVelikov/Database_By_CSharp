@@ -29,5 +29,4 @@ namespace MusicHub.Data.Models
 
         public ICollection<Song> Songs { get; set; }
     }
-
 }
