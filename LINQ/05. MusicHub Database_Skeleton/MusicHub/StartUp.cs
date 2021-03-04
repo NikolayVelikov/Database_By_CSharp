@@ -12,7 +12,8 @@
         {
             MusicHubDbContext context = new MusicHubDbContext();
 
-            DbInitializer.ResetDatabase(context);
+            //DbInitializer.ResetDatabase(context);
+            
 
             Console.WriteLine(ExportSongsAboveDuration(context, 4));
 

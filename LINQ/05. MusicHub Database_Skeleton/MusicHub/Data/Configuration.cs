@@ -3,6 +3,6 @@
    public static class Configuration
     {
         public static string ConnectionString =
-            "Server=DESKTOP-8F63LT6\\TEW_SQLEXPRESS;Database=MusicHub;Trusted_Connection=True";
+            "Server=DESKTOP-8F63LT6\\TEW_SQLEXPRESS;Database=MusicHub;Integrated Security=True";
     }
 }
