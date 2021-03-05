@@ -8,8 +8,8 @@ namespace P01_StudentSystem
         static void Main(string[] args)
         {
             var context = new StudentSystemContext();
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureDeleted();
+            Console.WriteLine(context.Database.EnsureCreated());
         }
     }
 }

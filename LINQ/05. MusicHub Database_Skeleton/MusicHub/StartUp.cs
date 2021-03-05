@@ -11,33 +11,27 @@
         public static void Main(string[] args)
         {
             MusicHubDbContext context = new MusicHubDbContext();
-
-            //DbInitializer.ResetDatabase(context);
-            
-
-            Console.WriteLine(ExportSongsAboveDuration(context, 4));
+            DbInitializer.ResetDatabase(context);
 
             Console.WriteLine(ExportAlbumsInfo(context, 9));
+            Console.WriteLine(ExportSongsAboveDuration(context, 4));
         }
 
         public static string ExportAlbumsInfo(MusicHubDbContext context, int producerId)
         {
-            var albumInfo = context.Producers
-                .FirstOrDefault(x => x.Id == producerId)
-                .Albums
-                .Select(album => new
+            var albumInfo = context.Albums.Where(x => x.ProducerId == producerId).Select(album => new
+            {
+                AlbumName = album.Name,
+                ReleaseDate = album.ReleaseDate,
+                ProducerName = album.Producer.Name,
+                Songs = album.Songs.Select(song => new
                 {
-                    AlbumName = album.Name,
-                    ReleaseDate = album.ReleaseDate,
-                    ProducerName = album.Producer.Name,
-                    Songs = album.Songs.Select(song => new
-                    {
-                        SongName = song.Name,
-                        Price = song.Price,
-                        Writer = song.Writer.Name
-                    }).OrderByDescending(x => x.SongName).ThenBy(w => w.Writer).ToArray(),
-                    AlbumPrice = album.Price
-                }).OrderByDescending(x => x.AlbumPrice).ToArray();
+                    SongName = song.Name,
+                    Price = song.Price,
+                    Writer = song.Writer.Name
+                }).OrderByDescending(song => song.SongName).ThenBy(song => song.Writer).ToArray(),
+                AlbumPrice = album.Price
+            }).ToArray().OrderByDescending(x => x.AlbumPrice);
 
             StringBuilder sbAlbum = new StringBuilder();
 
@@ -65,14 +59,14 @@
 
         public static string ExportSongsAboveDuration(MusicHubDbContext context, int duration)
         {
-            var songs = context.Songs.ToArray().Where(x => x.Duration.TotalSeconds > duration).Select(x => new
+            var songs = context.Songs.Select(song => new
             {
-                SongName = x.Name,
-                Writer = x.Writer.Name,
-                PerformerFullName = x.SongPerformers.Select(x => x.Performer.FirstName + " " + x.Performer.LastName).FirstOrDefault(),
-                Producer = x.Album.Producer.Name,
-                Duration = x.Duration
-            }).OrderBy(x => x.SongName).ThenBy(x => x.Writer).ThenBy(x => x.PerformerFullName).ToArray();
+                SongName = song.Name,
+                Writer = song.Writer.Name,
+                Performer = song.SongPerformers.Select(y=> y.Performer.FirstName + " " + y.Performer.LastName).ToList(),
+                AlbumProducer = song.Album.Producer.Name,
+                Duration = song.Duration
+            }).ToArray().Where(x => x.Duration.TotalSeconds > duration).OrderBy(x => x.SongName).ThenBy(x => x.Writer).ThenBy(x => x.Performer);
 
             StringBuilder sb = new StringBuilder();
             int i = 1;
@@ -81,8 +75,8 @@
                 sb.AppendLine($"-Song #{i++}");
                 sb.AppendLine($"---SongName: {song.SongName}");
                 sb.AppendLine($"---Writer: {song.Writer}");
-                sb.AppendLine($"---Performer: {song.PerformerFullName}");
-                sb.AppendLine($"---AlbumProducer: {song.Producer}");
+                sb.AppendLine($"---Performer: {song.Performer.FirstOrDefault()}");
+                sb.AppendLine($"---AlbumProducer: {song.AlbumProducer}");
                 sb.AppendLine($"---Duration: {song.Duration:c}");
             }
 

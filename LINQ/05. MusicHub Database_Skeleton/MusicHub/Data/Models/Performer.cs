@@ -19,6 +19,7 @@ namespace MusicHub.Data.Models
         [Required]
         [MaxLength(20)]
         public string LastName { get; set; }
+        public string FullName => this.FirstName + " " + this.LastName;
         public int Age { get; set; }
         public decimal NetWorth { get; set; }
 
