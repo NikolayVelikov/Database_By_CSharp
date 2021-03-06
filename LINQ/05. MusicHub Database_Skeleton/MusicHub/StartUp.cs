@@ -11,9 +11,9 @@
         public static void Main(string[] args)
         {
             MusicHubDbContext context = new MusicHubDbContext();
-            DbInitializer.ResetDatabase(context);
+           // DbInitializer.ResetDatabase(context);
 
-            Console.WriteLine(ExportAlbumsInfo(context, 9));
+           // Console.WriteLine(ExportAlbumsInfo(context, 9));
             Console.WriteLine(ExportSongsAboveDuration(context, 4));
         }
 
