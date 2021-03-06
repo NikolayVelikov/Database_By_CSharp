@@ -15,6 +15,7 @@
             //Console.WriteLine(GetBooksByAgeRestriction(db, Console.ReadLine()));
             //Console.WriteLine(GetGoldenBooks(db));
             //Console.WriteLine(GetBooksByPrice(db));
+            Console.WriteLine(GetBooksNotReleasedIn(db,int.Parse(Console.ReadLine())));
         }
 
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
@@ -28,6 +29,10 @@
         public static string GetBooksByPrice(BookShopContext context)
         {
             return BooksByPrice.Solution(context);
+        }
+        public static string GetBooksNotReleasedIn(BookShopContext context, int year)
+        {
+            return NotReleasedIn.Solution(context,year);
         }
     }
 }
