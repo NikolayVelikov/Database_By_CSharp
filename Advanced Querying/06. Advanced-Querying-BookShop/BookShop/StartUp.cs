@@ -8,6 +8,7 @@
 
     using Data;
     using BookShop.Models.Enums;
+    using System.Globalization;
 
     public class StartUp
     {
@@ -22,7 +23,11 @@
             //Console.WriteLine(GetBooksByPrice(db));
             //Console.WriteLine(GetBooksNotReleasedIn(db,int.Parse(Console.ReadLine())));
             //Console.WriteLine(GetBooksByCategory(db, Console.ReadLine()));  
-            Console.WriteLine(GetBooksByCategory(db, Console.ReadLine()));
+            //Console.WriteLine(GetBooksByCategory(db, Console.ReadLine()));
+            //Console.WriteLine(GetBooksReleasedBefore(db, Console.ReadLine()));
+            //Console.WriteLine(GetAuthorNamesEndingIn(db, Console.ReadLine()));
+            //Console.WriteLine(GetBookTitlesContaining(db, Console.ReadLine()));
+            Console.WriteLine(GetBooksByAuthor(db, Console.ReadLine()));
 
         }
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
@@ -121,6 +126,92 @@
             foreach (var item in books)
             {
                 sb.AppendLine(item.Title);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static string GetBooksReleasedBefore(BookShopContext context, string date)
+        {
+            DateTime specifiedDate = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            var books = context.Books
+                .Where(x => x.ReleaseDate.HasValue && x.ReleaseDate.Value < specifiedDate)
+                .Select(x => new
+                {
+                    Ttitle = x.Title,
+                    Price = x.Price,
+                    ReleaseDate = x.ReleaseDate,
+                    EditionType = x.EditionType.ToString()
+                })
+                .OrderByDescending(x => x.ReleaseDate)
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var book in books)
+            {
+                sb.AppendLine($"{book.Ttitle} - {book.EditionType} - ${book.Price:f2}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static string GetAuthorNamesEndingIn(BookShopContext context, string input)
+        {
+            var authors = context.Authors
+                .Where(x => x.FirstName.EndsWith(input))
+                .Select(x => new
+                {
+                    FullName = x.FirstName + " " + x.LastName
+                })
+                .OrderBy(x => x.FullName).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var author in authors)
+            {
+                sb.AppendLine(author.FullName);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static string GetBookTitlesContaining(BookShopContext context, string input)
+        {
+            var books = context.Books
+                .Where(x => x.Title.ToLower().Contains(input.ToLower()))
+                .Select(x => new
+                {
+                    x.Title
+                })
+                .OrderBy(x => x.Title).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var book in books)
+            {
+                sb.AppendLine(book.Title);
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static string GetBooksByAuthor(BookShopContext context, string input)
+        {
+            var authors = context.Authors
+                .Where(x => x.LastName.ToLower().StartsWith(input.ToLower()))
+                .Select(x => new
+                {
+                    FullName = x.FirstName + " " + x.LastName,
+                    Books = x.Books.Select(book => new
+                    {
+                        BookId = book.BookId,
+                        Title = book.Title
+                    }
+                    ).OrderBy(x => x.BookId).ToArray()
+                })
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var author in authors)
+            {
+                foreach (var book in author.Books)
+                {
+                    sb.AppendLine($"{book.Title} ({author.FullName})");
+                }
             }
 
             return sb.ToString().TrimEnd();
