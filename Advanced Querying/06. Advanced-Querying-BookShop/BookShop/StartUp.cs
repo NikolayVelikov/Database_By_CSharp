@@ -27,7 +27,10 @@
             //Console.WriteLine(GetBooksReleasedBefore(db, Console.ReadLine()));
             //Console.WriteLine(GetAuthorNamesEndingIn(db, Console.ReadLine()));
             //Console.WriteLine(GetBookTitlesContaining(db, Console.ReadLine()));
-            Console.WriteLine(GetBooksByAuthor(db, Console.ReadLine()));
+            //Console.WriteLine(GetBooksByAuthor(db, Console.ReadLine()));
+            //Console.WriteLine(CountBooks(db, int.Parse(Console.ReadLine())));
+            //Console.WriteLine(CountCopiesByAuthor(db));
+            Console.WriteLine(GetTotalProfitByCategory(db));
 
         }
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
@@ -212,6 +215,47 @@
                 {
                     sb.AppendLine($"{book.Title} ({author.FullName})");
                 }
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static int CountBooks(BookShopContext context, int lengthCheck)
+        {
+            var books = context.Books.Where(x => x.Title.Length > lengthCheck).Count();
+
+            return books;
+        }
+        public static string CountCopiesByAuthor(BookShopContext context)
+        {
+            var authors = context.Authors
+                .Select(x => new
+                {
+                    FullName = string.Concat(x.FirstName, ' ', x.LastName),
+                    BooksCount = x.Books.Select(book => book.Copies).Sum()
+                }).OrderByDescending(x => x.BooksCount).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var author in authors)
+            {
+                sb.AppendLine($"{author.FullName} - {author.BooksCount}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static string GetTotalProfitByCategory(BookShopContext context)
+        {
+            var categoryProfit = context.Categories
+                .Select(x => new
+                {
+                    Category = x.Name,
+                    Profit = x.CategoryBooks.Select(y => y.Book.Price * y.Book.Copies).Sum()
+                }
+                ).OrderByDescending(x => x.Profit).ThenBy(x => x.Category).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var category in categoryProfit)
+            {
+                sb.AppendLine($"{category.Category} ${category.Profit:f2}");
             }
 
             return sb.ToString().TrimEnd();
