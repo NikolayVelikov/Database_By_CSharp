@@ -30,8 +30,8 @@
             //Console.WriteLine(GetBooksByAuthor(db, Console.ReadLine()));
             //Console.WriteLine(CountBooks(db, int.Parse(Console.ReadLine())));
             //Console.WriteLine(CountCopiesByAuthor(db));
-            Console.WriteLine(GetTotalProfitByCategory(db));
-
+            //Console.WriteLine(GetMostRecentBooks(db));
+            //IncreasePrices(db);
         }
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
         {
@@ -259,6 +259,44 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+        public static string GetMostRecentBooks(BookShopContext context)
+        {
+            var categoryBooks = context.Categories
+                              .Select(x => new
+                              {
+                                  CategoryName = x.Name,
+                                  Book = x.CategoryBooks.Select(y => new
+                                  {
+                                      Title = y.Book.Title,
+                                      ReleaseDate = y.Book.ReleaseDate
+                                  }).OrderByDescending(x => x.ReleaseDate).Take(3).ToArray()
+                              }
+                              ).OrderBy(x => x.CategoryName).ToArray();
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var categoryInfo in categoryBooks)
+            {
+                sb.AppendLine($"--{categoryInfo.CategoryName}");
+                foreach (var book in categoryInfo.Book)
+                {
+                    sb.AppendLine($"{book.Title} ({book.ReleaseDate.Value.Year})");
+                }
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+        public static void IncreasePrices(BookShopContext context)
+        {
+            var booksBefore2010 = context.Books.Where(x => x.ReleaseDate.HasValue && x.ReleaseDate.Value.Year < 2010).ToArray();
+            StringBuilder sb = new StringBuilder();
+            foreach (var book in booksBefore2010)
+            {
+                sb.AppendLine($"{book.Title} Date: {book.ReleaseDate.Value.Year} Price: {book.Price}");
+                book.Price += 5;
+            }            
+
+            context.SaveChanges();
         }
     }
 }
