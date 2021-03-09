@@ -3,12 +3,12 @@
     using System;
     using System.Linq;
     using System.Text;
+    using System.Globalization;
 
     using Initializer;
 
     using Data;
     using BookShop.Models.Enums;
-    using System.Globalization;
 
     public class StartUp
     {
@@ -32,6 +32,7 @@
             //Console.WriteLine(CountCopiesByAuthor(db));
             //Console.WriteLine(GetMostRecentBooks(db));
             //IncreasePrices(db);
+            Console.WriteLine(RemoveBooks(db));
         }
         public static string GetBooksByAgeRestriction(BookShopContext context, string command)
         {
@@ -297,6 +298,19 @@
             }            
 
             context.SaveChanges();
+        }
+        public static int RemoveBooks(BookShopContext context)
+        {
+            var booksForDeleting = context.Books.Where(x => x.Copies < 4200).ToArray();
+
+            foreach (var book in booksForDeleting)
+            {
+                context.Remove(book);
+            }
+            
+            context.SaveChanges();
+
+            return booksForDeleting.Length;
         }
     }
 }
