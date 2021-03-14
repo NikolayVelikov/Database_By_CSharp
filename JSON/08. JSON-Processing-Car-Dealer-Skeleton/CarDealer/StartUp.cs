@@ -32,7 +32,8 @@ namespace CarDealer
             //result = GetCarsFromMakeToyota(db);
             //result = GetLocalSuppliers(db);
             //result = GetCarsWithTheirListOfParts(db);
-            result = GetTotalSalesByCustomer(db);
+            //result = GetTotalSalesByCustomer(db);
+            result = GetSalesWithAppliedDiscount(db);
 
             Console.WriteLine(result);
         }
@@ -195,10 +196,32 @@ namespace CarDealer
                                             .Select(m => m.Part.Price)
                                             .Sum())
                         .Sum()
-            }).OrderByDescending(x=> x.spentMoney).ThenByDescending(x=> x.boughtCars).ToArray();            
+            }).OrderByDescending(x => x.spentMoney).ThenByDescending(x => x.boughtCars).ToArray();
 
             var objCustomers = JsonConvert.SerializeObject(customers, Formatting.Indented);
             return objCustomers;
+        }
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            var sales = context.Sales
+                .Take(10)
+                .Select(s => new
+                {
+                    car = new
+                    {
+                        Make = s.Car.Make,
+                        Model = s.Car.Model,
+                        TravelledDistance = s.Car.TravelledDistance
+                    },
+                    customerName = s.Customer.Name,
+                    Discount = $"{s.Discount:F2}",
+                    price = $"{s.Car.PartCars.Select(p => p.Part.Price).Sum()}",
+                    priceWithDiscount = $"{((s.Car.PartCars.Select(p => p.Part.Price).Sum()) * (1.00M - (s.Discount / 100))):f2}"
+                }).ToArray();
+
+            var objSales = JsonConvert.SerializeObject(sales, Formatting.Indented);
+
+            return objSales;
         }
     }
 }
