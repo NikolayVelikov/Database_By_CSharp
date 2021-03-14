@@ -18,20 +18,21 @@ namespace CarDealer
             string result = string.Empty;
             //DataBase(db);
 
-            //string jsonSupplier = File.ReadAllText("../../../Datasets/suppliers.json"); // Task 1
-            //result = ImportSuppliers(db, jsonSupplier); // Task 1
-            //string jsonParts = File.ReadAllText("../../../Datasets/parts.json"); // Task 2
-            //result = ImportParts(db, jsonParts); // Task 2
-            //string jsonCars = File.ReadAllText("../../../Datasets/cars.json"); // Task 3
-            //result = ImportCars(db, jsonCars); // Task 3
-            //string jsonCustomers = File.ReadAllText("../../../Datasets/customers.json"); // Task 4
-            //result = ImportCustomers(db, jsonCustomers); // Task 4
-            //string jsonSales = File.ReadAllText("../../../Datasets/sales.json"); // Task 5
-            //result = ImportSales(db, jsonSales); // Task 5
+            //string jsonSupplier = File.ReadAllText("../../../Datasets/suppliers.json");
+            //result = ImportSuppliers(db, jsonSupplier);
+            //string jsonParts = File.ReadAllText("../../../Datasets/parts.json");
+            //result = ImportParts(db, jsonParts);
+            //string jsonCars = File.ReadAllText("../../../Datasets/cars.json");
+            //result = ImportCars(db, jsonCars);
+            //string jsonCustomers = File.ReadAllText("../../../Datasets/customers.json");
+            //result = ImportCustomers(db, jsonCustomers);
+            //string jsonSales = File.ReadAllText("../../../Datasets/sales.json");
+            //result = ImportSales(db, jsonSales);
             //result = GetOrderedCustomers(db);
             //result = GetCarsFromMakeToyota(db);
             //result = GetLocalSuppliers(db);
-            result = GetCarsWithTheirListOfParts(db);
+            //result = GetCarsWithTheirListOfParts(db);
+            result = GetTotalSalesByCustomer(db);
 
             Console.WriteLine(result);
         }
@@ -182,6 +183,22 @@ namespace CarDealer
             var result = JsonConvert.SerializeObject(cars, Formatting.Indented);
 
             return result;
+        }
+        public static string GetTotalSalesByCustomer(CarDealerContext context)
+        {
+            var customers = context.Customers.Where(x => x.Sales.Select(car => car.Car).Count() >= 1).Select(c => new
+            {
+                fullName = c.Name,
+                boughtCars = c.Sales.Select(car => car.Car).Count(),
+                spentMoney = c.Sales
+                        .Select(s => s.Car.PartCars
+                                            .Select(m => m.Part.Price)
+                                            .Sum())
+                        .Sum()
+            }).OrderByDescending(x=> x.spentMoney).ThenByDescending(x=> x.boughtCars).ToArray();            
+
+            var objCustomers = JsonConvert.SerializeObject(customers, Formatting.Indented);
+            return objCustomers;
         }
     }
 }
