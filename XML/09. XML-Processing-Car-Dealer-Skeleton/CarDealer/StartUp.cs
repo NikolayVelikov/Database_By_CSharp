@@ -33,7 +33,8 @@ namespace CarDealer
 
             //result = GetCarsWithDistance(db);
             //result = GetCarsFromMakeBmw(db);
-            result = GetLocalSuppliers(db);
+            //result = GetLocalSuppliers(db);
+            result = GetCarsWithTheirListOfParts(db);
 
 
             Console.WriteLine(result);
@@ -91,6 +92,51 @@ namespace CarDealer
             var localSuppliersXml = XmlConverter.Serialize<LocalSupplierOutputModel>(localSupplier, root);
 
             return localSuppliersXml;
+        }
+        public static string GetCarsWithTheirListOfParts(CarDealerContext context)
+        {
+            var cars = context.Cars
+                .Select(x => new
+                {
+                    Make = x.Make,
+                    Model = x.Model,
+                    TravelledDistanced = x.TravelledDistance,
+                    Parts = x.PartCars.Select(y => new
+                    {
+                        PartName = y.Part.Name,
+                        PartPrice = y.Part.Price
+                    }).OrderByDescending(y=> y.PartPrice).ToArray()
+
+                }).OrderByDescending(x=> x.TravelledDistanced).ThenBy(x=> x.Model).Take(5).ToArray();
+
+            List<CarPartsOutputModel> carsConvert = new List<CarPartsOutputModel>();
+            foreach (var car in cars)
+            {
+                CarPartsOutputModel currentCar = new CarPartsOutputModel
+                {
+                    Make = car.Make,
+                    Model = car.Model,
+                    TravelledDistanced = car.TravelledDistanced
+                };
+
+                foreach (var part in car.Parts)
+                {
+                    var currentPart = new PartsListOutputModel
+                    {
+                        Name = part.PartName,
+                        Price = part.PartPrice
+                    };
+
+                    currentCar.PartsListOutputModel.Add(currentPart);
+                }
+
+                carsConvert.Add(currentCar);
+            }
+
+            string root = "cars";
+            var carsXml = XmlConverter.Serialize<List<CarPartsOutputModel>>(carsConvert, root);
+
+            return carsXml;
         }
 
         private static void ResetDatabase(CarDealerContext context)
