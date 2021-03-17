@@ -32,7 +32,8 @@ namespace CarDealer
             //result = ImportSales(db, salesXml);
 
             //result = GetCarsWithDistance(db);
-            result = GetCarsFromMakeBmw(db);
+            //result = GetCarsFromMakeBmw(db);
+            result = GetLocalSuppliers(db);
 
 
             Console.WriteLine(result);
@@ -73,6 +74,23 @@ namespace CarDealer
             var bmwCarsXml = XmlConverter.Serialize<BMWOutputModel>(bmwCars, root);
 
             return bmwCarsXml;
+        }
+        public static string GetLocalSuppliers(CarDealerContext context)
+        {
+            var localSupplier = context.Suppliers
+                .Where(x => x.IsImporter == false)
+                .Select(x => new LocalSupplierOutputModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    PartsCount = x.Parts.Count
+                })
+                .ToArray();
+
+            string root = "suppliers";
+            var localSuppliersXml = XmlConverter.Serialize<LocalSupplierOutputModel>(localSupplier, root);
+
+            return localSuppliersXml;
         }
 
         private static void ResetDatabase(CarDealerContext context)
