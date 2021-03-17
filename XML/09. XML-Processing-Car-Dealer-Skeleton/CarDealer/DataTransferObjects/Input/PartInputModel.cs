@@ -2,7 +2,7 @@
 
 namespace CarDealer.DataTransferObjects.Input
 {
-    [XmlType("Parts")]
+    [XmlType("Part")]
     public class PartInputModel
     {
         [XmlElement("name")]
@@ -18,7 +18,3 @@ namespace CarDealer.DataTransferObjects.Input
         public int SupplierId { get; set; }
     }
 }
-// <name > Bonnet / hood </ name >
-//       < price > 1001.34 </ price >
-//       < quantity > 10 </ quantity >
-//       < supplierId > 17 </ supplierId >
