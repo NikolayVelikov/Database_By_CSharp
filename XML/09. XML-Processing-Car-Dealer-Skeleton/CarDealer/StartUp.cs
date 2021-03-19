@@ -34,7 +34,9 @@ namespace CarDealer
             //result = GetCarsWithDistance(db);
             //result = GetCarsFromMakeBmw(db);
             //result = GetLocalSuppliers(db);
-            result = GetCarsWithTheirListOfParts(db);
+            //result = GetCarsWithTheirListOfParts(db);
+            //result = GetTotalSalesByCustomer(db);
+            result = GetSalesWithAppliedDiscount(db);
 
 
             Console.WriteLine(result);
@@ -105,9 +107,9 @@ namespace CarDealer
                     {
                         PartName = y.Part.Name,
                         PartPrice = y.Part.Price
-                    }).OrderByDescending(y=> y.PartPrice).ToArray()
+                    }).OrderByDescending(y => y.PartPrice).ToArray()
 
-                }).OrderByDescending(x=> x.TravelledDistanced).ThenBy(x=> x.Model).Take(5).ToArray();
+                }).OrderByDescending(x => x.TravelledDistanced).ThenBy(x => x.Model).Take(5).ToArray();
 
             List<CarPartsOutputModel> carsConvert = new List<CarPartsOutputModel>();
             foreach (var car in cars)
@@ -137,6 +139,46 @@ namespace CarDealer
             var carsXml = XmlConverter.Serialize<List<CarPartsOutputModel>>(carsConvert, root);
 
             return carsXml;
+        }
+        public static string GetTotalSalesByCustomer(CarDealerContext context)
+        {
+            var customers = context.Customers.Where(x => x.Sales.Any())
+                .Select(x => new CustomerTotalSpendMoneyOutputModel
+                {
+                    FullName = x.Name,
+                    BoughtCars = x.Sales.Select(y => new { y.Car }).Count(),
+                    SpendMoneyParts = x.Sales.Select(x => x.Car).SelectMany(x => x.PartCars).Sum(x => x.Part.Price)
+                })
+                .OrderByDescending(x => x.SpendMoneyParts)
+                .ToArray();
+
+            string root = "customers";
+
+            var customersXml = XmlConverter.Serialize<CustomerTotalSpendMoneyOutputModel>(customers, root);
+
+            return customersXml;
+        }
+        public static string GetSalesWithAppliedDiscount(CarDealerContext context)
+        {
+            var sales = context.Sales.Select(x => new SaleOutputModel
+            {
+                Car = new CarSaleOutputModel
+                {
+                    Make = x.Car.Make,
+                    Model = x.Car.Model,
+                    TravelledDistance = x.Car.TravelledDistance
+                },
+                Discount = x.Discount,
+                CustomerName = x.Customer.Name,
+                Price = x.Car.PartCars.Sum(x => x.Part.Price),
+                PriceWithDiscount = x.Car.PartCars.Sum(x => x.Part.Price) - x.Car.PartCars.Sum(x => x.Part.Price) * x.Discount / 100
+            }
+            ).ToList();
+
+            var salesXml = XmlConverter.Serialize(sales, "sales");
+
+
+            return salesXml;
         }
 
         private static void ResetDatabase(CarDealerContext context)
