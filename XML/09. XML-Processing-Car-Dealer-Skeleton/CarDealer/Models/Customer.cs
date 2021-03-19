@@ -18,6 +18,8 @@
 
         public bool IsYoungDriver { get; set; }
 
+        public string Email { get; set; }
+
         public ICollection<Sale> Sales { get; set; }
     }
 }

@@ -17,7 +17,8 @@ namespace CarDealer
         public static void Main(string[] args)
         {
             CarDealerContext db = new CarDealerContext();
-            string result = string.Empty;
+            //db.Database.EnsureDeleted();
+            string result = "work";
             //ResetDatabase(db);
             //
             //var supplierXML = File.ReadAllText("./Datasets/suppliers.xml");
@@ -36,7 +37,7 @@ namespace CarDealer
             //result = GetLocalSuppliers(db);
             //result = GetCarsWithTheirListOfParts(db);
             //result = GetTotalSalesByCustomer(db);
-            result = GetSalesWithAppliedDiscount(db);
+            //result = GetSalesWithAppliedDiscount(db);
 
 
             Console.WriteLine(result);
