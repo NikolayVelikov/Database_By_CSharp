@@ -17,27 +17,26 @@ namespace CarDealer
         public static void Main(string[] args)
         {
             CarDealerContext db = new CarDealerContext();
-            //db.Database.EnsureDeleted();
             string result = "work";
-            //ResetDatabase(db);
-            //
-            //var supplierXML = File.ReadAllText("./Datasets/suppliers.xml");
-            //result = ImportSuppliers(db, supplierXML);
-            //var partsXML = File.ReadAllText("./Datasets/parts.xml");
-            //result = ImportParts(db, partsXML);
-            //var carsXML = File.ReadAllText("./Datasets/cars.xml");
-            //result = ImportCars(db, carsXML);
-            //var customersXml = File.ReadAllText("./Datasets/customers.xml");
-            //result = ImportCustomers(db, customersXml);
-            //var salesXml = File.ReadAllText("./Datasets/sales.xml");
-            //result = ImportSales(db, salesXml);
+            ResetDatabase(db);
+            
+            var supplierXML = File.ReadAllText("./Datasets/suppliers.xml");
+            result = ImportSuppliers(db, supplierXML);
+            var partsXML = File.ReadAllText("./Datasets/parts.xml");
+            result = ImportParts(db, partsXML);
+            var carsXML = File.ReadAllText("./Datasets/cars.xml");
+            result = ImportCars(db, carsXML);
+            var customersXml = File.ReadAllText("./Datasets/customers.xml");
+            result = ImportCustomers(db, customersXml);
+            var salesXml = File.ReadAllText("./Datasets/sales.xml");
+            result = ImportSales(db, salesXml);
 
-            //result = GetCarsWithDistance(db);
-            //result = GetCarsFromMakeBmw(db);
-            //result = GetLocalSuppliers(db);
-            //result = GetCarsWithTheirListOfParts(db);
-            //result = GetTotalSalesByCustomer(db);
-            //result = GetSalesWithAppliedDiscount(db);
+            result = GetCarsWithDistance(db);
+            result = GetCarsFromMakeBmw(db);
+            result = GetLocalSuppliers(db);
+            result = GetCarsWithTheirListOfParts(db);
+            result = GetTotalSalesByCustomer(db);
+            result = GetSalesWithAppliedDiscount(db);
 
 
             Console.WriteLine(result);

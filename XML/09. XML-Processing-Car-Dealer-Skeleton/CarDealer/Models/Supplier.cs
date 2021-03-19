@@ -14,7 +14,6 @@
         public string Name { get; set; }
 
         public bool IsImporter { get; set; }
-        public string Email { get; set; }
 
         public ICollection<Part> Parts { get; set; }
     }

@@ -33,4 +33,7 @@
     <Category>
         <name>Other</name>
     </Category>
+  <Category>
+    <name>null</name>
+  </Category>
 </Categories>
