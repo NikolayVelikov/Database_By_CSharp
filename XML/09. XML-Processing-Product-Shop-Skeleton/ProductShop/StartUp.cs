@@ -31,7 +31,7 @@ namespace ProductShop
 
             //result = GetProductsInRange(db);
             //result = GetSoldProducts(db);
-            result = GetCategoriesByProductsCount(db);
+            result = GetUsersWithProducts(db);
 
             Console.WriteLine(result);
         }
@@ -110,13 +110,41 @@ namespace ProductShop
                     AveragePrice = p.CategoryProducts.Select(x => x.Product.Price).Average(),
                     TotalRevenue = p.CategoryProducts.Select(x => x.Product.Price).Sum(),
                 })
-                .OrderByDescending(x => x.NumberOfProducts).ThenBy(x=> x.TotalRevenue).ToArray();
+                .OrderByDescending(x => x.NumberOfProducts).ThenBy(x => x.TotalRevenue).ToArray();
 
             string root = "Categories";
             var categoriesXml = XmlConverter.Serialize(categories, root);
 
             return categoriesXml;
         }
+        public static string GetUsersWithProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                                .Where(x => x.ProductsSold.Any())
+                                .OrderByDescending(x => x.ProductsSold.Count)
+                                .Select(x => new
+                                {
+                                    FirstName = x.FirstName,
+                                    LastName = x.LastName,
+                                    Age = x.Age,
+                                    CountSoldProduct = x.ProductsSold.Count,
+                                    SoldedProducts = x.ProductsSold
+                                                            .Select(p => new
+                                                            {
+                                                                ProductName = p.Name,
+                                                                Price = p.Price
+                                                            }).OrderByDescending(p => p.Price).ToArray()
+                                })
+                                .ToArray();
+
+            var products = users.Count();
+            var result = new OutputModel
+            {
+                Count = products
+            };
+            return null;
+        }
+
 
 
 
