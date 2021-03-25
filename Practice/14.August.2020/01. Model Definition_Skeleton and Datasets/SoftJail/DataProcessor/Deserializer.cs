@@ -64,71 +64,42 @@
         {
             StringBuilder sb = new StringBuilder();
             var jsongFile = JsonConvert.DeserializeObject<PrisonerMailsInputModel[]>(jsonString);
+
             foreach (var item in jsongFile)
             {
-                if (item.FullName == null || item.FullName.Length < 3 || item.FullName.Length > 20)
+                var jsonMail = item.Mail.ToList();
+                if (item.FullName.Length < 3 || item.FullName.Length > 20 || item.FullName.Length == null)
                 {
                     sb.AppendLine("Invalid Data");
-                    continue;
                 }
-                if (item.Nickname == null && !item.Nickname.StartsWith("The "))
+                if (!item.Nickname.StartsWith("The ") || item.Nickname == null)
                 {
                     sb.AppendLine("Invalid Data");
-                    continue;
+                } // Possible problem with UpperCase
+                if (item.Age < 18 || item.Age > 65 || item.Age == null)
+                {
+                    sb.AppendLine("Invalid Data");
                 }
-                char a = item.Nickname[4];
-                char b = char.ToUpper(item.Nickname[4]);
-                if (item.Nickname[4] != char.ToUpper(item.Nickname[4]))
+                if (item.IncarcerationDate == null)
                 {
                     sb.AppendLine("Invalid Data");
-                    continue;
-                }
-                if (item.Age < 18 || item.Age > 65)
-                {
-                    sb.AppendLine("Invalid Data");
-                    continue;
                 }
                 if (item.Bail < 0)
                 {
                     sb.AppendLine("Invalid Data");
-                    continue;
                 }
-                var mail = item.Mail.ToArray();
-                int count = mail.Count(x => x.Address.EndsWith("str."));
-                if (count != mail.Count())
+                if (jsonMail.FirstOrDefault(d => d.Description == null) != null)
                 {
                     sb.AppendLine("Invalid Data");
-                    continue;
                 }
-                
-                var z = item.IncarcerationDate;
-                var currentPrisoner = new Prisoner
+                if (jsonMail.FirstOrDefault(s=> s.Sender == null) != null)
                 {
-                    Age = item.Age,
-                    Bail = item.Bail ?? 0,
-                    CellId = item.CellId,
-                    FullName = item.FullName,
-                    IncarcerationDate = DateTime.ParseExact(item.IncarcerationDate,"dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Nickname = item.Nickname,
-                    ReleaseDate = DateTime.ParseExact(item.ReleaseDate,"dd/MM/yyyy", CultureInfo.InvariantCulture)
-                };
+                    sb.AppendLine("Invalid Data");
+                }
 
-                foreach (var Mail in item.Mail)
-                {
-                    var currentMail = new Mail
-                    {
-                        Address = Mail.Address,
-                        Description = Mail.Description,
-                        Sender = Mail.Sender
-                    };
-                    currentPrisoner.Mails.Add(currentMail);
-                }
-                context.Add(currentPrisoner);
-                sb.AppendLine($"Imported {currentPrisoner.FullName} {currentPrisoner.Age} years old");
             }
 
-            context.SaveChanges();
-            return sb.ToString().TrimEnd();           
+            return null;          
         }
 
         public static string ImportOfficersPrisoners(SoftJailDbContext context, string xmlString)
