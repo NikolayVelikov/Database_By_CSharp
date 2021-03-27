@@ -1,6 +1,7 @@
 ﻿namespace SoftJail.Data.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Cell
     {
@@ -14,7 +15,7 @@
         public int CellNumber { get; set; }
 
         public bool HasWindow { get; set; }
-
+               
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
 
