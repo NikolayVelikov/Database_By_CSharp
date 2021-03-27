@@ -12,6 +12,7 @@
     using Data;
     using SoftJail.Data.Models;
     using SoftJail.DataProcessor.ImportDto;
+    using SoftJail.Data.Models.Enums;
 
     public class Deserializer
     {
@@ -23,17 +24,7 @@
             List<Department> departments = new List<Department>();
             foreach (var currentDepartment in departmentsCells)
             {
-                if (!IsValid(currentDepartment))
-                {
-                    sb.AppendLine("Invalid Data");
-                    continue;
-                }
-                else if (!currentDepartment.Cells.All(IsValid))
-                {
-                    sb.AppendLine("Invalid Data");
-                    continue;
-                }
-                else if (currentDepartment.Cells.Count == 0)
+                if (!IsValid(currentDepartment) || !currentDepartment.Cells.All(IsValid) || currentDepartment.Cells.Count == 0)
                 {
                     sb.AppendLine("Invalid Data");
                     continue;
@@ -108,14 +99,44 @@
             }
 
             context.Prisoners.AddRange(prisoners);
-
+            context.SaveChanges();
 
             return sb.ToString().TrimEnd();
         }
 
         public static string ImportOfficersPrisoners(SoftJailDbContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            string root = "Officers";
+            var officersPrisoners = XmlConverter.Deserializer<OfficerPrisonerInputModel>(xmlString, root);
+
+            List<Officer> officers = new List<Officer>();
+            StringBuilder sb = new StringBuilder();
+            foreach (var currentOfficer in officersPrisoners)
+            {
+                if (!IsValid(currentOfficer))
+                {
+                    sb.AppendLine("Invalid Data");
+                    continue;
+                }
+
+                var officer = new Officer()
+                {
+                    FullName = currentOfficer.FullName,
+                    Salary = currentOfficer.Salary,
+                    Position = Enum.Parse<Position>(currentOfficer.Positon),
+                    Weapon = Enum.Parse<Weapon>(currentOfficer.Weapon),
+                    DepartmentId = currentOfficer.DepartmentId,
+                    OfficerPrisoners = currentOfficer.Prisoners.Select(x => new OfficerPrisoner { PrisonerId = x.Id }).ToList()
+                };
+
+                officers.Add(officer);
+                sb.AppendLine($"Imported {officer.FullName} ({officer.OfficerPrisoners.Count} prisoners)");
+            }
+
+            context.Officers.AddRange(officers);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object obj)
