@@ -33,6 +33,9 @@
 
         public static string ExportPrisonersInbox(SoftJailDbContext context, string prisonersNames)
         {
+            string root = "Prisoners";
+            string[] prisoners = prisonersNames.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray();
+
             throw new NotImplementedException();
         }
     }
