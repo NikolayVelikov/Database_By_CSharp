@@ -3,6 +3,7 @@
 
     using Data;
     using Newtonsoft.Json;
+    using SoftJail.DataProcessor.ExportDto;
     using System;
     using System.Linq;
 
@@ -36,7 +37,23 @@
             string root = "Prisoners";
             string[] prisoners = prisonersNames.Split(",", StringSplitOptions.RemoveEmptyEntries).ToArray();
 
-            throw new NotImplementedException();
+            var data = context.Prisoners
+                .Where(x => prisoners.Contains(x.FullName))
+                .Select(x => new PrisonerOutputModel()
+                {
+                    Id = x.Id,
+                    FullName = x.FullName,
+                    IncarcerationDate = x.IncarcerationDate.ToString("yyyy-MM-dd"),
+                    EncryptedMessages = x.Mails.Select(x => new EncryptedMessages
+                    {
+                        Description = string.Join("",x.Description.Reverse())
+                    }).ToArray()
+                })
+                .OrderBy(x=> x.FullName).ThenBy(x=> x.Id).ToList();
+
+            var dataXml = XmlConverter.Serialize(data, root);
+
+            return dataXml;
         }
     }
 }
