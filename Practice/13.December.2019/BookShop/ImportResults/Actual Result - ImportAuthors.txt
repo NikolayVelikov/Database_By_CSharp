@@ -4,7 +4,7 @@ Invalid data!
 Invalid data!
 Invalid data!
 Successfully imported author - Nataniel Pembery with 2 books.
-Invalid data!
+Successfully imported author - Aila Fallanche with 2 books.
 Successfully imported author - Terri Credland with 2 books.
 Successfully imported author - Philbert Canland with 1 books.
 Successfully imported author - Adora Albinson with 1 books.
