@@ -54,12 +54,10 @@
 			if (shouldDropDatabase)
 			{
 				context.Database.EnsureDeleted();
-                Console.WriteLine("Deleted !!!");
 			}
 
 			if (context.Database.EnsureCreated())
 			{
-                Console.WriteLine("Created !!!");
 				return;
 			}
 

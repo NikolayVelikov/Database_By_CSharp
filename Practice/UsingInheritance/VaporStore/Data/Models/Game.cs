@@ -12,7 +12,6 @@
             this.GameTags = new HashSet<GameTag>();
         }
 
-        [Key]
         public int Id { get; set; }
 
         [Required]
@@ -21,10 +20,10 @@
         public decimal Price { get; set; }
 
         public DateTime ReleaseDate { get; set; }
-                
+
         public int DeveloperId { get; set; }
         public Developer Developer { get; set; }
-
+                
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
 
@@ -33,13 +32,3 @@
         public ICollection<GameTag> GameTags { get; set; }
     }
 }
-//•	Id – integer, Primary Key
-//•	Name – text (required)
-//•	Price – decimal(non - negative, minimum value: 0)(required)
-//•	ReleaseDate – Date(required)
-//•	DeveloperId – integer, foreign key(required)
-//•	Developer – the game’s developer (required)
-//•	GenreId – integer, foreign key(required)
-//•	Genre – the game’s genre (required)
-//•	Purchases - collection of type Purchase
-//•	GameTags - collection of type GameTag. Each game must have at least one tag.

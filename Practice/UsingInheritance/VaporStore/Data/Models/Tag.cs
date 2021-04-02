@@ -9,6 +9,6 @@ namespace VaporStore.Data.Models
             this.GameTags = new HashSet<GameTag>();
         }
 
-        public ICollection<GameTag> GameTags;
+        public ICollection<GameTag> GameTags { get; set; }
     }
 }
