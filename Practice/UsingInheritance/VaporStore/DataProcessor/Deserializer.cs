@@ -24,6 +24,7 @@
             List<Game> games = new List<Game>();
             foreach (var game in gamesJson)
             {
+                string name = game.Name;
                 if (!IsValid(game) || game.Tags.Length == 0)
                 {
                     sb.AppendLine(errorMessage);
