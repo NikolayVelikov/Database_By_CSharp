@@ -18,7 +18,7 @@
         public string FullName { get; set; }
 
         public decimal Salary { get; set; }
-
+                
         public Position Position { get; set; }
 
         public Weapon Weapon { get; set; }

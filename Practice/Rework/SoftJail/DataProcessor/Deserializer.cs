@@ -13,6 +13,7 @@
     using SoftJail.DataProcessor.ImportDto;
     using SoftJail.Data.Models;
     using System.Globalization;
+    using SoftJail.Data.Models.Enums;
 
     public class Deserializer
     {
@@ -106,7 +107,54 @@
 
         public static string ImportOfficersPrisoners(SoftJailDbContext context, string xmlString)
         {
-            throw new NotImplementedException();
+            string root = "Officers";
+            var officersXml = XmlConverter.Deserializer<OfficerInputModel>(xmlString, root);
+
+            StringBuilder sb = new StringBuilder();
+            List<Officer> officers = new List<Officer>();
+            foreach (var officer in officersXml)
+            {
+                Position positon;
+                Weapon weapon;
+                if (!IsValid(officer))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+                if (!Enum.TryParse<Position>(officer.Position, out positon))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+                if (!Enum.TryParse<Weapon>(officer.Weapon, out weapon))
+                {
+                    sb.AppendLine(ErrorMessage);
+                    continue;
+                }
+
+                Officer currentOfficer = new Officer()
+                {
+                    FullName = officer.FullName,
+                    Salary = officer.Salary,
+                    Position = positon,
+                    Weapon = weapon,
+                    DepartmentId = officer.DepartmentId      
+                };
+
+                foreach (var prisoner in officer.PrisionerId)
+                {
+                    var officerPrisoner = new OfficerPrisoner() { OfficerId = currentOfficer.Id, PrisonerId = prisoner.Id };
+                    currentOfficer.OfficerPrisoners.Add(officerPrisoner);
+                }
+
+                officers.Add(currentOfficer);
+                sb.AppendLine($"Imported {currentOfficer.FullName} ({currentOfficer.OfficerPrisoners.Count} prisoners)");
+            }
+
+            context.Officers.AddRange(officers);
+            context.SaveChanges();
+
+            return sb.ToString().TrimEnd();
         }
 
         private static bool IsValid(object obj)
